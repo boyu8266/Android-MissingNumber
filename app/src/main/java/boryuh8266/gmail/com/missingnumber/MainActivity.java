@@ -25,13 +25,15 @@ public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemL
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         arrayList = new ArrayList<>();
 
-        MissingNumber mn = new MissingNumber(11);
+        int num = 5;
+
+        MissingNumber mn = new MissingNumber(num);
         int[] qArray = mn.getQArray();
         Log.e("mMsg", String.valueOf(mn.getMissingNumber()));
 
         String[] colors = {"#09A9FF", "#3E51B1", "#673BB7", "#4BAA50", "#0A9B88"};
 
-        int len = qArray.length - 1;
+        int len = qArray.length;
         for (int i = 0; i < len; i++) {
             arrayList.add(new Item(String.valueOf(qArray[i]), colors[i % 5]));
         }
