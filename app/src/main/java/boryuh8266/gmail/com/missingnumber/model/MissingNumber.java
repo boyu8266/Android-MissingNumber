@@ -8,7 +8,7 @@ public class MissingNumber {
     private int missingNumber;
     private int[] qArray;
 
-    MissingNumber(int max) {
+    public MissingNumber(int max) {
         setNewMissingNumber(max);
     }
 
@@ -16,7 +16,7 @@ public class MissingNumber {
         missingNumber = (int) (Math.random() * max + 1);
         LinkedList<Integer> initArray = new LinkedList<Integer>();
         for (int i = 0; i < max; i++) {
-            if ((i+1) == missingNumber) continue;
+            if ((i + 1) == missingNumber) continue;
             initArray.add(i + 1);
         }
         Collections.shuffle(initArray);
@@ -31,7 +31,7 @@ public class MissingNumber {
         return qArray;
     }
 
-    public int getMissingNumber(){
+    public int getMissingNumber() {
         return missingNumber;
     }
 
