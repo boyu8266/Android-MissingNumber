@@ -24,12 +24,12 @@ public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemL
         arrayList = new ArrayList<>();
 
         for (int i = 0; i < 3; i++) {
-            arrayList.add(new Item("Item 1", R.drawable.battle, "#09A9FF"));
-            arrayList.add(new Item("Item 2", R.drawable.beer, "#3E51B1"));
-            arrayList.add(new Item("Item 3", R.drawable.ferrari, "#673BB7"));
-            arrayList.add(new Item("Item 4", R.drawable.jetpack_joyride, "#4BAA50"));
-            arrayList.add(new Item("Item 5", R.drawable.three_d, "#F94336"));
-            arrayList.add(new Item("Item 6", R.drawable.terraria, "#0A9B88"));
+            arrayList.add(new Item("Item 1", "#09A9FF"));
+            arrayList.add(new Item("Item 2", "#3E51B1"));
+            arrayList.add(new Item("Item 3", "#673BB7"));
+            arrayList.add(new Item("Item 4", "#4BAA50"));
+            arrayList.add(new Item("Item 5", "#F94336"));
+            arrayList.add(new Item("Item 6", "#0A9B88"));
         }
         HomeAdapter adapter = new HomeAdapter(this, arrayList, this);
         recyclerView.setAdapter(adapter);

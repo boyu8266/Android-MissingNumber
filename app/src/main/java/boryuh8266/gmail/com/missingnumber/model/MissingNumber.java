@@ -3,12 +3,12 @@ package boryuh8266.gmail.com.missingnumber.model;
 import java.util.Collections;
 import java.util.LinkedList;
 
-public class CreateMissingNumber {
+public class MissingNumber {
 
     private int missingNumber;
     private int[] qArray;
 
-    CreateMissingNumber(int max) {
+    MissingNumber(int max) {
         setNewMissingNumber(max);
     }
 

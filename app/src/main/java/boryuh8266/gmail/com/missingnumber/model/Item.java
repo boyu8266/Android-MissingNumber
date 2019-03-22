@@ -9,12 +9,10 @@ package boryuh8266.gmail.com.missingnumber.model;
 public class Item {
 
     public String text;
-    public int drawable;
     public String color;
 
-    public Item(String text, int drawable, String color ) {
+    public Item(String text, String color ) {
         this.text = text;
-        this.drawable = drawable;
         this.color = color;
     }
 
@@ -24,14 +22,6 @@ public class Item {
 
     public void setText(String text) {
         this.text = text;
-    }
-
-    public int getDrawable() {
-        return drawable;
-    }
-
-    public void setDrawable(int drawable) {
-        this.drawable = drawable;
     }
 
     public String getColor() {

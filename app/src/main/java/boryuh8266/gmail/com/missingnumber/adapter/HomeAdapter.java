@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -36,7 +35,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private TextView textView;
-        private ImageView imageView;
         private RelativeLayout relativeLayout;
         private Item item;
 
@@ -44,14 +42,12 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
             super(v);
             v.setOnClickListener(this);
             textView = (TextView) v.findViewById(R.id.textView);
-            imageView = (ImageView) v.findViewById(R.id.imageView);
             relativeLayout = (RelativeLayout) v.findViewById(R.id.relativeLayout);
         }
 
         public void setData(Item item) {
             this.item = item;
             textView.setText(item.text);
-            imageView.setImageResource(item.drawable);
             relativeLayout.setBackgroundColor(Color.parseColor(item.color));
         }
 
