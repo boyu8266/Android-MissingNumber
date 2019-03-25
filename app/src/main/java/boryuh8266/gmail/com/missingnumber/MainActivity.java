@@ -5,7 +5,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -52,12 +51,12 @@ public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemL
         GridLayoutManager manager = new GridLayoutManager(this, 5, GridLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(manager);
 
-        setDailog();
+        initDailog();
     }
 
     @Override
     public void onItemClick(Item item) {
-        if(item.getText().equals("？")) {
+        if (item.getText().equals("？")) {
             HeinsInputDialog dialog = new HeinsInputDialog(this);
             dialog.setPositiveButton(new OnInputDoubleListener() {
                 @Override
@@ -72,17 +71,19 @@ public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemL
         }
     }
 
-    private void checkAnswer(int answer){
-        if(mn.isRightAnswer(answer))
+    private void checkAnswer(int answer) {
+        if (mn.isRightAnswer(answer)) {
+            successDialog.setMessage(getResources().getString(R.string.dialog_message) + answer);
             successDialog.show();
-        else
+        } else {
+            failDialog.setMessage(getResources().getString(R.string.dialog_message) + answer);
             failDialog.show();
+        }
     }
 
-    private void setDailog() {
+    private void initDailog() {
         successDialog = new AwesomeSuccessDialog(MainActivity.this)
                 .setTitle(R.string.success)
-                .setMessage(R.string.app_name)
                 .setColoredCircle(R.color.dialogSuccessBackgroundColor)
                 .setDialogIconAndColor(R.drawable.ic_success, R.color.white)
                 .setCancelable(true)
@@ -107,7 +108,6 @@ public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemL
 
         failDialog = new AwesomeSuccessDialog(MainActivity.this)
                 .setTitle(R.string.fail)
-                .setMessage(R.string.app_name)
                 .setColoredCircle(R.color.dialogErrorBackgroundColor)
                 .setDialogIconAndColor(R.drawable.ic_dialog_error, R.color.white)
                 .setCancelable(true)
