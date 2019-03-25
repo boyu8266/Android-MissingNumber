@@ -22,7 +22,9 @@ public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemL
     private ArrayList<Item> arrayList;
 
     private MissingNumber mn;
-    private AwesomeSuccessDialog successDialog, failDialog;
+    private AwesomeSuccessDialog successDialog, failDialog, warnDialog;
+
+    private int num;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemL
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         arrayList = new ArrayList<>();
 
-        int num = 5;
+        num = 5;
 
         mn = new MissingNumber(num);
         int[] qArray = mn.getQArray();
@@ -73,12 +75,17 @@ public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemL
 
     private void checkAnswer(int answer) {
         String str = getResources().getString(R.string.dialog_message) + ": " + answer;
-        if (mn.isRightAnswer(answer)) {
-            successDialog.setMessage(str);
-            successDialog.show();
+        if (answer < 1 || answer > num) {
+            warnDialog.setMessage(str);
+            warnDialog.show();
         } else {
-            failDialog.setMessage(str);
-            failDialog.show();
+            if (mn.isRightAnswer(answer)) {
+                successDialog.setMessage(str);
+                successDialog.show();
+            } else {
+                failDialog.setMessage(str);
+                failDialog.show();
+            }
         }
     }
 
@@ -114,6 +121,21 @@ public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemL
                 .setCancelable(false)
                 .setNegativeButtonText(getString(R.string.fail_negative_button))
                 .setNegativeButtonbackgroundColor(R.color.dialogErrorBackgroundColor)
+                .setNegativeButtonTextColor(R.color.white)
+                .setNegativeButtonClick(new Closure() {
+                    @Override
+                    public void exec() {
+                        //click
+                    }
+                });
+
+        warnDialog = new AwesomeSuccessDialog(MainActivity.this)
+                .setTitle(R.string.warn)
+                .setColoredCircle(R.color.dialogWarningBackgroundColor)
+                .setDialogIconAndColor(R.drawable.ic_dialog_warning, R.color.white)
+                .setCancelable(false)
+                .setNegativeButtonText(getString(R.string.fail_negative_button))
+                .setNegativeButtonbackgroundColor(R.color.dialogWarningBackgroundColor)
                 .setNegativeButtonTextColor(R.color.white)
                 .setNegativeButtonClick(new Closure() {
                     @Override

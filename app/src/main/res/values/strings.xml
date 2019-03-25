@@ -7,6 +7,7 @@
 
     <string name="success">答案正確</string>
     <string name="fail">答案錯誤</string>
+    <string name="warn">超出範圍</string>
 
     <string name="dialog_title">Missing number</string>
     <string name="dialog_hint">The Answaer is ..</string>
