@@ -24,7 +24,9 @@ public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemL
     private MissingNumber mn;
     private AwesomeSuccessDialog successDialog, failDialog, warnDialog;
 
-    private int num;
+    int[] qArray;
+    private int num = 0;
+    private String[] colors = {"#09A9FF", "#3E51B1", "#673BB7", "#4BAA50", "#0A9B88"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,12 +36,20 @@ public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemL
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         arrayList = new ArrayList<>();
 
-        num = 5;
+        setGame();
+        initDailog();
+    }
 
-        mn = new MissingNumber(num);
-        int[] qArray = mn.getQArray();
+    private void setGame() {
+        arrayList.clear();
+        if (num == 0) {
+            num = 5;
+            mn = new MissingNumber(num);
+        } else
+            num += 5;
 
-        String[] colors = {"#09A9FF", "#3E51B1", "#673BB7", "#4BAA50", "#0A9B88"};
+        mn.setNewMissingNumber(num);
+        qArray = mn.getQArray();
 
         int len = qArray.length;
         for (int i = 0; i < len; i++) {
@@ -52,8 +62,6 @@ public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemL
 
         GridLayoutManager manager = new GridLayoutManager(this, 5, GridLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(manager);
-
-        initDailog();
     }
 
     @Override
@@ -95,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemL
                 .setColoredCircle(R.color.dialogSuccessBackgroundColor)
                 .setDialogIconAndColor(R.drawable.ic_success, R.color.white)
                 .setCancelable(false)
-                .setPositiveButtonText(getString(R.string.dialog_yes_button))
+                .setPositiveButtonText(getString(R.string.dialog_game_button))
                 .setPositiveButtonbackgroundColor(R.color.dialogSuccessBackgroundColor)
                 .setPositiveButtonTextColor(R.color.white)
                 .setNegativeButtonText(getString(R.string.dialog_no_button))
@@ -104,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemL
                 .setPositiveButtonClick(new Closure() {
                     @Override
                     public void exec() {
-                        //click
+                        setGame();
                     }
                 })
                 .setNegativeButtonClick(new Closure() {

@@ -5,6 +5,8 @@
     <string name="dialog_no_button">No</string>
     <string name="dialog_neutral_button">Neutral</string>
 
+    <string name="dialog_game_button">接續</string>
+
     <string name="success">答案正確</string>
     <string name="fail">答案錯誤</string>
     <string name="warn">超出範圍</string>
