@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemL
     private ArrayList<Item> arrayList;
 
     MissingNumber mn;
-    AwesomeSuccessDialog asd;
+    AwesomeSuccessDialog successDialog, failDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,11 +56,11 @@ public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemL
     }
 
     private void setDailog() {
-        asd = new AwesomeSuccessDialog(MainActivity.this)
-                .setTitle(R.string.app_name)
+        successDialog = new AwesomeSuccessDialog(MainActivity.this)
+                .setTitle(R.string.success)
                 .setMessage(R.string.app_name)
                 .setColoredCircle(R.color.dialogSuccessBackgroundColor)
-                .setDialogIconAndColor(R.drawable.ic_dialog_info, R.color.white)
+                .setDialogIconAndColor(R.drawable.ic_success, R.color.white)
                 .setCancelable(true)
                 .setPositiveButtonText(getString(R.string.dialog_yes_button))
                 .setPositiveButtonbackgroundColor(R.color.dialogSuccessBackgroundColor)
@@ -74,6 +74,22 @@ public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemL
                         //click
                     }
                 })
+                .setNegativeButtonClick(new Closure() {
+                    @Override
+                    public void exec() {
+                        //click
+                    }
+                });
+
+        failDialog = new AwesomeSuccessDialog(MainActivity.this)
+                .setTitle(R.string.fail)
+                .setMessage(R.string.app_name)
+                .setColoredCircle(R.color.dialogErrorBackgroundColor)
+                .setDialogIconAndColor(R.drawable.ic_dialog_error, R.color.white)
+                .setCancelable(true)
+                .setNegativeButtonText(getString(R.string.fail_negative_button))
+                .setNegativeButtonbackgroundColor(R.color.dialogErrorBackgroundColor)
+                .setNegativeButtonTextColor(R.color.white)
                 .setNegativeButtonClick(new Closure() {
                     @Override
                     public void exec() {
@@ -101,9 +117,10 @@ public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemL
     }
 
     private void checkAnswer(int answer){
-        if(mn.isRightAnswer(answer)){
-            asd.show();
-        }
+        if(mn.isRightAnswer(answer))
+            successDialog.show();
+        else
+            failDialog.show();
     }
 
 }

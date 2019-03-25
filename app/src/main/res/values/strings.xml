@@ -4,4 +4,9 @@
     <string name="dialog_yes_button">Yes</string>
     <string name="dialog_no_button">No</string>
     <string name="dialog_neutral_button">Neutral</string>
+
+    <string name="success">答案正確</string>
+    <string name="fail">答案錯誤</string>
+
+    <string name="fail_negative_button">再試一次</string>
 </resources>
