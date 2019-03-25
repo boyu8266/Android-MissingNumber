@@ -31,8 +31,8 @@ public class MissingNumber {
         return qArray;
     }
 
-    public int getMissingNumber() {
-        return missingNumber;
+    public boolean isRightAnswer(int answer) {
+        return answer == missingNumber ? true : false;
     }
 
 }

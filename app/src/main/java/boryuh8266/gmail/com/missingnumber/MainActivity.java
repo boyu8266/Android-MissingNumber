@@ -20,6 +20,8 @@ public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemL
     private RecyclerView recyclerView;
     private ArrayList<Item> arrayList;
 
+    MissingNumber mn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,9 +32,8 @@ public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemL
 
         int num = 5;
 
-        MissingNumber mn = new MissingNumber(num);
+        mn = new MissingNumber(num);
         int[] qArray = mn.getQArray();
-        Log.e("mMsg", String.valueOf(mn.getMissingNumber()));
 
         String[] colors = {"#09A9FF", "#3E51B1", "#673BB7", "#4BAA50", "#0A9B88"};
 
@@ -57,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemL
             dialog.setPositiveButton(new OnInputDoubleListener() {
                 @Override
                 public boolean onInputDouble(AlertDialog dialog, Double value) {
-                    Log.d("Debug", String.valueOf(value));
+                    Log.d("Debug", String.valueOf(mn.isRightAnswer((int) value.doubleValue())));
                     return false;//return if consume event
                 }
             });
