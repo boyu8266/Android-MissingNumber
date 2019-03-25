@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemL
     private ArrayList<Item> arrayList;
 
     MissingNumber mn;
+    AwesomeSuccessDialog asd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +51,35 @@ public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemL
 
         GridLayoutManager manager = new GridLayoutManager(this, 5, GridLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(manager);
+
+        setDailog();
+    }
+
+    private void setDailog() {
+        asd = new AwesomeSuccessDialog(MainActivity.this)
+                .setTitle(R.string.app_name)
+                .setMessage(R.string.app_name)
+                .setColoredCircle(R.color.dialogSuccessBackgroundColor)
+                .setDialogIconAndColor(R.drawable.ic_dialog_info, R.color.white)
+                .setCancelable(true)
+                .setPositiveButtonText(getString(R.string.dialog_yes_button))
+                .setPositiveButtonbackgroundColor(R.color.dialogSuccessBackgroundColor)
+                .setPositiveButtonTextColor(R.color.white)
+                .setNegativeButtonText(getString(R.string.dialog_no_button))
+                .setNegativeButtonbackgroundColor(R.color.dialogSuccessBackgroundColor)
+                .setNegativeButtonTextColor(R.color.white)
+                .setPositiveButtonClick(new Closure() {
+                    @Override
+                    public void exec() {
+                        //click
+                    }
+                })
+                .setNegativeButtonClick(new Closure() {
+                    @Override
+                    public void exec() {
+                        //click
+                    }
+                });
     }
 
 
@@ -60,33 +90,8 @@ public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemL
             dialog.setPositiveButton(new OnInputDoubleListener() {
                 @Override
                 public boolean onInputDouble(AlertDialog dialog, Double value) {
-                    new AwesomeSuccessDialog(MainActivity.this)
-                            .setTitle(R.string.app_name)
-                            .setMessage(R.string.app_name)
-                            .setColoredCircle(R.color.dialogSuccessBackgroundColor)
-                            .setDialogIconAndColor(R.drawable.ic_dialog_info, R.color.white)
-                            .setCancelable(true)
-                            .setPositiveButtonText(getString(R.string.dialog_yes_button))
-                            .setPositiveButtonbackgroundColor(R.color.dialogSuccessBackgroundColor)
-                            .setPositiveButtonTextColor(R.color.white)
-                            .setNegativeButtonText(getString(R.string.dialog_no_button))
-                            .setNegativeButtonbackgroundColor(R.color.dialogSuccessBackgroundColor)
-                            .setNegativeButtonTextColor(R.color.white)
-                            .setPositiveButtonClick(new Closure() {
-                                @Override
-                                public void exec() {
-                                    //click
-                                }
-                            })
-                            .setNegativeButtonClick(new Closure() {
-                                @Override
-                                public void exec() {
-                                    //click
-                                }
-                            })
-                            .show();
-                    Log.d("Debug", String.valueOf(mn.isRightAnswer((int) value.doubleValue())));
-                    return false;//return if consume event
+                    checkAnswer((int) value.doubleValue());
+                    return false;
                 }
             });
             dialog.setTitle("Missing number");
@@ -94,4 +99,11 @@ public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemL
             dialog.show();
         }
     }
+
+    private void checkAnswer(int answer){
+        if(mn.isRightAnswer(answer)){
+            asd.show();
+        }
+    }
+
 }
