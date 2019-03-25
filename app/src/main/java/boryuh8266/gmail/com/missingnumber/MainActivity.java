@@ -10,9 +10,11 @@ import android.util.Log;
 import java.util.ArrayList;
 
 import boryuh8266.gmail.com.missingnumber.adapter.HomeAdapter;
+import boryuh8266.gmail.com.missingnumber.model.AwesomeSuccessDialog;
 import boryuh8266.gmail.com.missingnumber.model.HeinsInputDialog;
 import boryuh8266.gmail.com.missingnumber.model.Item;
 import boryuh8266.gmail.com.missingnumber.model.MissingNumber;
+import boryuh8266.gmail.com.missingnumber.model.interfaces.Closure;
 import boryuh8266.gmail.com.missingnumber.model.interfaces.OnInputDoubleListener;
 
 public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemListener {
@@ -58,6 +60,31 @@ public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemL
             dialog.setPositiveButton(new OnInputDoubleListener() {
                 @Override
                 public boolean onInputDouble(AlertDialog dialog, Double value) {
+                    new AwesomeSuccessDialog(MainActivity.this)
+                            .setTitle(R.string.app_name)
+                            .setMessage(R.string.app_name)
+                            .setColoredCircle(R.color.dialogSuccessBackgroundColor)
+                            .setDialogIconAndColor(R.drawable.ic_dialog_info, R.color.white)
+                            .setCancelable(true)
+                            .setPositiveButtonText(getString(R.string.dialog_yes_button))
+                            .setPositiveButtonbackgroundColor(R.color.dialogSuccessBackgroundColor)
+                            .setPositiveButtonTextColor(R.color.white)
+                            .setNegativeButtonText(getString(R.string.dialog_no_button))
+                            .setNegativeButtonbackgroundColor(R.color.dialogSuccessBackgroundColor)
+                            .setNegativeButtonTextColor(R.color.white)
+                            .setPositiveButtonClick(new Closure() {
+                                @Override
+                                public void exec() {
+                                    //click
+                                }
+                            })
+                            .setNegativeButtonClick(new Closure() {
+                                @Override
+                                public void exec() {
+                                    //click
+                                }
+                            })
+                            .show();
                     Log.d("Debug", String.valueOf(mn.isRightAnswer((int) value.doubleValue())));
                     return false;//return if consume event
                 }
