@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MissingNumber</string>
+    <string name="app_name">消失的數字</string>
     <string name="dialog_ok_button">Ok</string>
     <string name="dialog_yes_button">Yes</string>
     <string name="dialog_no_button">No</string>
