@@ -65,18 +65,19 @@ public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemL
                     return false;
                 }
             });
-            dialog.setTitle("Missing number");
-            dialog.setHint("The Answaer is ..");
+            dialog.setTitle(R.string.dialog_title);
+            dialog.setHint(R.string.dialog_hint);
             dialog.show();
         }
     }
 
     private void checkAnswer(int answer) {
+        String str = getResources().getString(R.string.dialog_message) + ": " + answer;
         if (mn.isRightAnswer(answer)) {
-            successDialog.setMessage(getResources().getString(R.string.dialog_message) + answer);
+            successDialog.setMessage(str);
             successDialog.show();
         } else {
-            failDialog.setMessage(getResources().getString(R.string.dialog_message) + answer);
+            failDialog.setMessage(str);
             failDialog.show();
         }
     }
@@ -86,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemL
                 .setTitle(R.string.success)
                 .setColoredCircle(R.color.dialogSuccessBackgroundColor)
                 .setDialogIconAndColor(R.drawable.ic_success, R.color.white)
-                .setCancelable(true)
+                .setCancelable(false)
                 .setPositiveButtonText(getString(R.string.dialog_yes_button))
                 .setPositiveButtonbackgroundColor(R.color.dialogSuccessBackgroundColor)
                 .setPositiveButtonTextColor(R.color.white)
@@ -110,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemL
                 .setTitle(R.string.fail)
                 .setColoredCircle(R.color.dialogErrorBackgroundColor)
                 .setDialogIconAndColor(R.drawable.ic_dialog_error, R.color.white)
-                .setCancelable(true)
+                .setCancelable(false)
                 .setNegativeButtonText(getString(R.string.fail_negative_button))
                 .setNegativeButtonbackgroundColor(R.color.dialogErrorBackgroundColor)
                 .setNegativeButtonTextColor(R.color.white)

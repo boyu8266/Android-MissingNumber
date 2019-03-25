@@ -8,7 +8,9 @@
     <string name="success">答案正確</string>
     <string name="fail">答案錯誤</string>
 
-    <string name="dialog_message">你輸入的值為: </string>
+    <string name="dialog_title">Missing number</string>
+    <string name="dialog_hint">The Answaer is ..</string>
+    <string name="dialog_message">你輸入的值為</string>
 
     <string name="fail_negative_button">再試一次</string>
 </resources>
