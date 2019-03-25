@@ -22,8 +22,8 @@ public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemL
     private RecyclerView recyclerView;
     private ArrayList<Item> arrayList;
 
-    MissingNumber mn;
-    AwesomeSuccessDialog successDialog, failDialog;
+    private MissingNumber mn;
+    private AwesomeSuccessDialog successDialog, failDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +53,30 @@ public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemL
         recyclerView.setLayoutManager(manager);
 
         setDailog();
+    }
+
+    @Override
+    public void onItemClick(Item item) {
+        if(item.getText().equals("？")) {
+            HeinsInputDialog dialog = new HeinsInputDialog(this);
+            dialog.setPositiveButton(new OnInputDoubleListener() {
+                @Override
+                public boolean onInputDouble(AlertDialog dialog, Double value) {
+                    checkAnswer((int) value.doubleValue());
+                    return false;
+                }
+            });
+            dialog.setTitle("Missing number");
+            dialog.setHint("The Answaer is ..");
+            dialog.show();
+        }
+    }
+
+    private void checkAnswer(int answer){
+        if(mn.isRightAnswer(answer))
+            successDialog.show();
+        else
+            failDialog.show();
     }
 
     private void setDailog() {
@@ -96,31 +120,6 @@ public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemL
                         //click
                     }
                 });
-    }
-
-
-    @Override
-    public void onItemClick(Item item) {
-        if(item.getText().equals("？")) {
-            HeinsInputDialog dialog = new HeinsInputDialog(this);
-            dialog.setPositiveButton(new OnInputDoubleListener() {
-                @Override
-                public boolean onInputDouble(AlertDialog dialog, Double value) {
-                    checkAnswer((int) value.doubleValue());
-                    return false;
-                }
-            });
-            dialog.setTitle("Missing number");
-            dialog.setHint("The Answaer is ..");
-            dialog.show();
-        }
-    }
-
-    private void checkAnswer(int answer){
-        if(mn.isRightAnswer(answer))
-            successDialog.show();
-        else
-            failDialog.show();
     }
 
 }
