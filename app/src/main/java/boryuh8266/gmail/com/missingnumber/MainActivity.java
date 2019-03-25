@@ -1,6 +1,7 @@
 package boryuh8266.gmail.com.missingnumber;
 
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,8 +10,10 @@ import android.util.Log;
 import java.util.ArrayList;
 
 import boryuh8266.gmail.com.missingnumber.adapter.HomeAdapter;
+import boryuh8266.gmail.com.missingnumber.model.HeinsInputDialog;
 import boryuh8266.gmail.com.missingnumber.model.Item;
 import boryuh8266.gmail.com.missingnumber.model.MissingNumber;
+import boryuh8266.gmail.com.missingnumber.model.interfaces.OnInputDoubleListener;
 
 public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemListener {
 
@@ -49,6 +52,18 @@ public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemL
 
     @Override
     public void onItemClick(Item item) {
-
+        if(item.getText().equals("？")) {
+            HeinsInputDialog dialog = new HeinsInputDialog(this);
+            dialog.setPositiveButton(new OnInputDoubleListener() {
+                @Override
+                public boolean onInputDouble(AlertDialog dialog, Double value) {
+                    Log.d("Debug", String.valueOf(value));
+                    return false;//return if consume event
+                }
+            });
+            dialog.setTitle("Missing number");
+            dialog.setHint("The Answaer is ..");
+            dialog.show();
+        }
     }
 }
