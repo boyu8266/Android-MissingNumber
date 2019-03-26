@@ -18,13 +18,11 @@ import boryuh8266.gmail.com.missingnumber.model.interfaces.OnInputDoubleListener
 
 public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemListener {
 
+    int[] qArray;
     private RecyclerView recyclerView;
     private ArrayList<Item> arrayList;
-
     private MissingNumber mn;
     private AwesomeSuccessDialog successDialog, failDialog, warnDialog;
-
-    int[] qArray;
     private int num = 0;
     private String[] colors = {"#09A9FF", "#3E51B1", "#673BB7", "#4BAA50", "#0A9B88"};
 
@@ -53,9 +51,12 @@ public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemL
 
         int len = qArray.length;
         for (int i = 0; i < len; i++) {
-            arrayList.add(new Item(String.valueOf(qArray[i]), colors[i % 5]));
+            if (qArray[i] == -1)
+                arrayList.add(new Item("？", "#F94336"));
+            else
+                arrayList.add(new Item(String.valueOf(qArray[i]), colors[i % 5]));
         }
-        arrayList.add(new Item("？", "#F94336"));
+        //arrayList.add(new Item("？", "#F94336"));
 
         HomeAdapter adapter = new HomeAdapter(this, arrayList, this);
         recyclerView.setAdapter(adapter);
