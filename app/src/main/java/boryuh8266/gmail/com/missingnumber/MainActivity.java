@@ -7,6 +7,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -27,23 +28,25 @@ public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemL
 
     final int UPDATE_TIMER = 1;
     int[] qArray;
+    LinkedList<String> colors;
     private RecyclerView recyclerView;
     private ArrayList<Item> arrayList;
     private MissingNumber mn;
     private AwesomeSuccessDialog successDialog, failDialog, warnDialog;
     private int num = 0;
-    LinkedList<String> colors;
     private String[] initColors = {"#09A9FF", "#3E51B1", "#673BB7", "#4BAA50", "#0A9B88"};
     private TextView timeTV;
+    private long initTime;
     private long startTime;
     private long pauseTime;
-    private long endTime;
-    Handler handler = new Handler() {
+    private long endTime = 0;
+    private Handler handler = new Handler() {
+        @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case UPDATE_TIMER:
                     endTime = System.currentTimeMillis();
-                    timeTV.setText(formatTime(endTime - startTime));
+                    timeTV.setText(formatTime(endTime - initTime - pauseTime));
                     break;
             }
             super.handleMessage(msg);
@@ -61,15 +64,15 @@ public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemL
         arrayList = new ArrayList<>();
         timeTV = (TextView) findViewById(R.id.mTimer);
 
-        startTime = System.currentTimeMillis();
+        initTime = System.currentTimeMillis();
         setColors();
         setGame();
         initDailog();
     }
 
-    private void setColors(){
+    private void setColors() {
         colors = new LinkedList<>();
-        for(int i=0;i<initColors.length;i++){
+        for (int i = 0; i < initColors.length; i++) {
             colors.add(initColors[i]);
         }
     }
@@ -91,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemL
             if (qArray[i] == -1)
                 arrayList.add(new Item("？", "#F94336"));
             else
-                arrayList.add(new Item(String.valueOf(qArray[i]), colors.get(i%5)));
+                arrayList.add(new Item(String.valueOf(qArray[i]), colors.get(i % 5)));
         }
 
         HomeAdapter adapter = new HomeAdapter(this, arrayList, this);
@@ -100,7 +103,9 @@ public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemL
         GridLayoutManager manager = new GridLayoutManager(this, 5, GridLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(manager);
 
-        pauseTime = System.currentTimeMillis();
+        startTime = System.currentTimeMillis();
+        if (endTime > 0)
+            pauseTime = pauseTime + System.currentTimeMillis() - endTime;
         timer = new Timer();
         timer.schedule(new mTimer(), 1000, 1000);
     }
@@ -131,7 +136,7 @@ public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemL
             if (mn.isRightAnswer(answer)) {
                 timer.cancel();
                 endTime = System.currentTimeMillis();
-                totalTime = endTime - pauseTime;
+                totalTime = endTime - startTime;
                 successDialog.setMessage(
                         str + "\n" +
                                 getResources().getString(R.string.dialog_time) + formatMillisTime(totalTime)
