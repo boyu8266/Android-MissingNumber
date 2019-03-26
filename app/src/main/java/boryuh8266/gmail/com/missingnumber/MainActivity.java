@@ -10,6 +10,8 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -30,7 +32,8 @@ public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemL
     private MissingNumber mn;
     private AwesomeSuccessDialog successDialog, failDialog, warnDialog;
     private int num = 0;
-    private String[] colors = {"#09A9FF", "#3E51B1", "#673BB7", "#4BAA50", "#0A9B88"};
+    LinkedList<String> colors;
+    private String[] initColors = {"#09A9FF", "#3E51B1", "#673BB7", "#4BAA50", "#0A9B88"};
     private TextView timeTV;
     private long startTime;
     private long pauseTime;
@@ -59,11 +62,20 @@ public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemL
         timeTV = (TextView) findViewById(R.id.mTimer);
 
         startTime = System.currentTimeMillis();
+        setColors();
         setGame();
         initDailog();
     }
 
+    private void setColors(){
+        colors = new LinkedList<>();
+        for(int i=0;i<initColors.length;i++){
+            colors.add(initColors[i]);
+        }
+    }
+
     private void setGame() {
+        Collections.shuffle(colors);
         arrayList.clear();
         if (num == 0) {
             num = 5;
@@ -79,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemL
             if (qArray[i] == -1)
                 arrayList.add(new Item("？", "#F94336"));
             else
-                arrayList.add(new Item(String.valueOf(qArray[i]), colors[i % 5]));
+                arrayList.add(new Item(String.valueOf(qArray[i]), colors.get(i%5)));
         }
 
         HomeAdapter adapter = new HomeAdapter(this, arrayList, this);
