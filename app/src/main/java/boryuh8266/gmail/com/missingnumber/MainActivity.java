@@ -7,7 +7,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -34,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemL
     private MissingNumber mn;
     private AwesomeSuccessDialog successDialog, failDialog, warnDialog;
     private int num = 0;
-    private String[] initColors = {"#09A9FF", "#3E51B1", "#673BB7", "#4BAA50", "#0A9B88"};
+    private String[] initColors = {"#09A9FF", "#3E51B1", "#673BB7", "#4BAA50", "#0A9B88","#C2C1C2"};
     private TextView timeTV;
     private long initTime;
     private long startTime;
@@ -104,8 +103,14 @@ public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemL
         recyclerView.setLayoutManager(manager);
 
         startTime = System.currentTimeMillis();
+        startTime();
+    }
+
+    private void startTime() {
         if (endTime > 0)
             pauseTime = pauseTime + System.currentTimeMillis() - endTime;
+        if (timer != null)
+            timer.cancel();
         timer = new Timer();
         timer.schedule(new mTimer(), 1000, 1000);
     }
@@ -209,6 +214,20 @@ public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemL
         long second = T % 60;
         long minute = T / 60;
         return (minute < 10 ? "0" + minute : minute) + ":" + (second < 10 ? "0" + second : second) + "." + (T < 10 ? "00" + T : (T < 100 ? "0" + T : T));
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (timer != null)
+            timer.cancel();
+        endTime = System.currentTimeMillis();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        startTime();
     }
 
     private class mTimer extends TimerTask {
