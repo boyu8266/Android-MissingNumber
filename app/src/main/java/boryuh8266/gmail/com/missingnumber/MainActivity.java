@@ -5,8 +5,10 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.TimerTask;
 
 import boryuh8266.gmail.com.missingnumber.adapter.HomeAdapter;
 import boryuh8266.gmail.com.missingnumber.model.AwesomeSuccessDialog;
@@ -26,6 +28,11 @@ public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemL
     private int num = 0;
     private String[] colors = {"#09A9FF", "#3E51B1", "#673BB7", "#4BAA50", "#0A9B88"};
 
+    private TextView timeTV;
+    private long startTime;
+    private long endTime;
+    private long totalTime;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemL
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         arrayList = new ArrayList<>();
+        timeTV = (TextView) findViewById(R.id.mTimer);
 
         setGame();
         initDailog();
@@ -63,6 +71,8 @@ public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemL
 
         GridLayoutManager manager = new GridLayoutManager(this, 5, GridLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(manager);
+
+        startTime = System.currentTimeMillis();
     }
 
     @Override
@@ -89,7 +99,9 @@ public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemL
             warnDialog.show();
         } else {
             if (mn.isRightAnswer(answer)) {
-                successDialog.setMessage(str);
+                endTime = System.currentTimeMillis();
+                totalTime = totalTime + endTime - startTime;
+                successDialog.setMessage(str + ", " + totalTime);
                 successDialog.show();
             } else {
                 failDialog.setMessage(str);
@@ -107,19 +119,10 @@ public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemL
                 .setPositiveButtonText(getString(R.string.dialog_game_button))
                 .setPositiveButtonbackgroundColor(R.color.dialogSuccessBackgroundColor)
                 .setPositiveButtonTextColor(R.color.white)
-                .setNegativeButtonText(getString(R.string.dialog_no_button))
-                .setNegativeButtonbackgroundColor(R.color.dialogSuccessBackgroundColor)
-                .setNegativeButtonTextColor(R.color.white)
                 .setPositiveButtonClick(new Closure() {
                     @Override
                     public void exec() {
                         setGame();
-                    }
-                })
-                .setNegativeButtonClick(new Closure() {
-                    @Override
-                    public void exec() {
-                        //click
                     }
                 });
 
@@ -152,6 +155,13 @@ public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemL
                         //click
                     }
                 });
+    }
+
+    private class mTimer extends TimerTask {
+        @Override
+        public void run() {
+
+        }
     }
 
 }
