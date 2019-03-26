@@ -1,6 +1,8 @@
 package boryuh8266.gmail.com.missingnumber;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -8,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Timer;
 import java.util.TimerTask;
 
 import boryuh8266.gmail.com.missingnumber.adapter.HomeAdapter;
@@ -20,6 +23,7 @@ import boryuh8266.gmail.com.missingnumber.model.interfaces.OnInputDoubleListener
 
 public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemListener {
 
+    final int UPDATE_TIMER = 1;
     int[] qArray;
     private RecyclerView recyclerView;
     private ArrayList<Item> arrayList;
@@ -27,11 +31,23 @@ public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemL
     private AwesomeSuccessDialog successDialog, failDialog, warnDialog;
     private int num = 0;
     private String[] colors = {"#09A9FF", "#3E51B1", "#673BB7", "#4BAA50", "#0A9B88"};
-
     private TextView timeTV;
     private long startTime;
+    private long pauseTime;
     private long endTime;
+    Handler handler = new Handler() {
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case UPDATE_TIMER:
+                    endTime = System.currentTimeMillis();
+                    timeTV.setText(formatTime(endTime - startTime));
+                    break;
+            }
+            super.handleMessage(msg);
+        }
+    };
     private long totalTime;
+    private Timer timer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemL
         arrayList = new ArrayList<>();
         timeTV = (TextView) findViewById(R.id.mTimer);
 
+        startTime = System.currentTimeMillis();
         setGame();
         initDailog();
     }
@@ -64,7 +81,6 @@ public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemL
             else
                 arrayList.add(new Item(String.valueOf(qArray[i]), colors[i % 5]));
         }
-        //arrayList.add(new Item("？", "#F94336"));
 
         HomeAdapter adapter = new HomeAdapter(this, arrayList, this);
         recyclerView.setAdapter(adapter);
@@ -72,7 +88,9 @@ public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemL
         GridLayoutManager manager = new GridLayoutManager(this, 5, GridLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(manager);
 
-        startTime = System.currentTimeMillis();
+        pauseTime = System.currentTimeMillis();
+        timer = new Timer();
+        timer.schedule(new mTimer(), 1000, 1000);
     }
 
     @Override
@@ -99,9 +117,13 @@ public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemL
             warnDialog.show();
         } else {
             if (mn.isRightAnswer(answer)) {
+                timer.cancel();
                 endTime = System.currentTimeMillis();
-                totalTime = totalTime + endTime - startTime;
-                successDialog.setMessage(str + ", " + totalTime);
+                totalTime = endTime - pauseTime;
+                successDialog.setMessage(
+                        str + "\n" +
+                                getResources().getString(R.string.dialog_time) + formatMillisTime(totalTime)
+                );
                 successDialog.show();
             } else {
                 failDialog.setMessage(str);
@@ -157,10 +179,27 @@ public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemL
                 });
     }
 
+    private String formatTime(long totalTime) {
+        long T = totalTime / 1000;
+        long second = T % 60;
+        long minute = T / 60;
+        long hour = minute / 24;
+        return (hour < 10 ? "0" + hour : hour) + " : " + (minute < 10 ? "0" + minute : minute) + " : " + (second < 10 ? "0" + second : second);
+    }
+
+    private String formatMillisTime(long t) {
+        long T = t / 1000;
+        long second = T % 60;
+        long minute = T / 60;
+        return (minute < 10 ? "0" + minute : minute) + ":" + (second < 10 ? "0" + second : second) + "." + (T < 10 ? "00" + T : (T < 100 ? "0" + T : T));
+    }
+
     private class mTimer extends TimerTask {
         @Override
         public void run() {
-
+            Message m = new Message();
+            m.what = UPDATE_TIMER;
+            handler.sendMessage(m);
         }
     }
 
