@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemL
     private MissingNumber mn;
     private AwesomeSuccessDialog successDialog, failDialog, warnDialog;
     private int num = 0;
-    private String[] initColors = {"#4B7C8C", "#DB6F3D", "#FFD23F", "#53D1C6", "#547AB7", "#E8FC56", "#E9B355"};
+    private String[] initColors = {"#0ebeff", "#47cf73", "#ae63e4", "#fcd000", "#76daff"};
     private TextView timeTV;
     private long initTime;
     private long startTime;
