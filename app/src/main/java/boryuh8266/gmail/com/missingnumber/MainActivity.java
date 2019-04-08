@@ -215,21 +215,22 @@ public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemL
         long minute = T / 60;
         return (minute < 10 ? "0" + minute : minute) + ":" + (second < 10 ? "0" + second : second) + "." + (T < 10 ? "00" + T : (T < 100 ? "0" + T : T));
     }
-/*
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (timer != null)
-            timer.cancel();
-        endTime = System.currentTimeMillis();
-    }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        startTime();
-    }
-*/
+    /*
+        @Override
+        protected void onPause() {
+            super.onPause();
+            if (timer != null)
+                timer.cancel();
+            endTime = System.currentTimeMillis();
+        }
+
+        @Override
+        protected void onResume() {
+            super.onResume();
+            startTime();
+        }
+    */
     private class mTimer extends TimerTask {
         @Override
         public void run() {
