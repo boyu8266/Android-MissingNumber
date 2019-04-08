@@ -144,7 +144,7 @@ public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemL
                 totalTime = endTime - startTime;
                 successDialog.setMessage(
                         str + "\n" +
-                                getResources().getString(R.string.dialog_time) + formatMillisTime(totalTime)
+                                getResources().getString(R.string.dialog_time) + ": " + formatMillisTime(totalTime)
                 );
                 successDialog.show();
             } else {
@@ -215,7 +215,7 @@ public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemL
         long minute = T / 60;
         return (minute < 10 ? "0" + minute : minute) + ":" + (second < 10 ? "0" + second : second) + "." + (T < 10 ? "00" + T : (T < 100 ? "0" + T : T));
     }
-
+/*
     @Override
     protected void onPause() {
         super.onPause();
@@ -229,7 +229,7 @@ public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemL
         super.onResume();
         startTime();
     }
-
+*/
     private class mTimer extends TimerTask {
         @Override
         public void run() {

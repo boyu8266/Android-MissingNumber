@@ -15,7 +15,7 @@
     <string name="dialog_hint">The Answaer is ..</string>
     <string name="dialog_message">你輸入的值為</string>
 
-    <string name="dialog_time">本次利用的總時數</string>
+    <string name="dialog_time">本次共耗時</string>
 
     <string name="fail_negative_button">再試一次</string>
 </resources>
