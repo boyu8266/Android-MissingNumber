@@ -7,7 +7,19 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.TextView;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -67,6 +79,62 @@ public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemL
         setColors();
         setGame();
         initDailog();
+
+        go();
+    }
+    private String mJSONURLString = "http://pastebin.com/raw/2bW31yqa";
+    private void go(){
+        Log.d("mDebug", "Go");
+        // Initialize a new RequestQueue instance
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+
+        // Initialize a new JsonObjectRequest instance
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.GET,
+                mJSONURLString,
+                null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // Do something with response
+                        //mTextView.setText(response.toString());
+                        Log.d("mDebug", String.valueOf(response));
+                        // Process the JSON
+                        try{
+                            // Get the JSON array
+                            JSONArray array = response.getJSONArray("students");
+
+                            // Loop through the array elements
+                            for(int i=0;i<array.length();i++){
+                                // Get current json object
+                                JSONObject student = array.getJSONObject(i);
+
+                                // Get the current student (json object) data
+                                String firstName = student.getString("firstname");
+                                String lastName = student.getString("lastname");
+                                String age = student.getString("age");
+
+                                // Display the formatted json data in text view
+                                Log.d("mDebug", firstName +" " + lastName +"\nage : " + age);
+//                                mTextView.append(firstName +" " + lastName +"\nage : " + age);
+//                                mTextView.append("\n\n");
+                            }
+                        }catch (JSONException e){
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener(){
+                    @Override
+                    public void onErrorResponse(VolleyError error){
+                        // Do something when error occurred
+                        Log.d("mDebug", String.valueOf(error));
+                    }
+                }
+        );
+
+        // Add JsonObjectRequest to the RequestQueue
+        requestQueue.add(jsonObjectRequest);
     }
 
     private void setColors() {
