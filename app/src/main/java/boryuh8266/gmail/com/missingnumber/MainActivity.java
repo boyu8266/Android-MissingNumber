@@ -53,7 +53,6 @@ public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemL
     };
     private long totalTime;
     private Timer timer;
-    private String mJSONURLString = "http://worldtimeapi.org/api/timezone/Atlantic/Reykjavik";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
