@@ -17,6 +17,7 @@ import java.util.TimerTask;
 
 import boryuh8266.gmail.com.missingnumber.adapter.HomeAdapter;
 import boryuh8266.gmail.com.missingnumber.model.AwesomeSuccessDialog;
+import boryuh8266.gmail.com.missingnumber.model.CustomDialog;
 import boryuh8266.gmail.com.missingnumber.model.HeinsInputDialog;
 import boryuh8266.gmail.com.missingnumber.model.Item;
 import boryuh8266.gmail.com.missingnumber.model.MissingNumber;
@@ -66,7 +67,14 @@ public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemL
         initTime = System.currentTimeMillis();
         setColors();
         setGame();
-        initDailog();
+        failDialog = new CustomDialog(this).getFailDialog();
+        warnDialog = new CustomDialog(this).getWarningDialog();
+        successDialog = new CustomDialog(this).getSuccessDialog().setPositiveButtonClick(new Closure() {
+            @Override
+            public void exec() {
+                setGame();
+            }
+        });
     }
 
     private void setColors() {
@@ -152,53 +160,6 @@ public class MainActivity extends AppCompatActivity implements HomeAdapter.ItemL
                 failDialog.show();
             }
         }
-    }
-
-    private void initDailog() {
-        successDialog = new AwesomeSuccessDialog(MainActivity.this)
-                .setTitle(R.string.success)
-                .setColoredCircle(R.color.dialogSuccessBackgroundColor)
-                .setDialogIconAndColor(R.drawable.ic_success, R.color.white)
-                .setCancelable(false)
-                .setPositiveButtonText(getString(R.string.dialog_game_button))
-                .setPositiveButtonbackgroundColor(R.color.dialogSuccessBackgroundColor)
-                .setPositiveButtonTextColor(R.color.white)
-                .setPositiveButtonClick(new Closure() {
-                    @Override
-                    public void exec() {
-                        setGame();
-                    }
-                });
-
-        failDialog = new AwesomeSuccessDialog(MainActivity.this)
-                .setTitle(R.string.fail)
-                .setColoredCircle(R.color.dialogErrorBackgroundColor)
-                .setDialogIconAndColor(R.drawable.ic_dialog_error, R.color.white)
-                .setCancelable(false)
-                .setNegativeButtonText(getString(R.string.fail_negative_button))
-                .setNegativeButtonbackgroundColor(R.color.dialogErrorBackgroundColor)
-                .setNegativeButtonTextColor(R.color.white)
-                .setNegativeButtonClick(new Closure() {
-                    @Override
-                    public void exec() {
-                        //click
-                    }
-                });
-
-        warnDialog = new AwesomeSuccessDialog(MainActivity.this)
-                .setTitle(R.string.warn)
-                .setColoredCircle(R.color.dialogWarningBackgroundColor)
-                .setDialogIconAndColor(R.drawable.ic_dialog_warning, R.color.white)
-                .setCancelable(false)
-                .setNegativeButtonText(getString(R.string.fail_negative_button))
-                .setNegativeButtonbackgroundColor(R.color.dialogWarningBackgroundColor)
-                .setNegativeButtonTextColor(R.color.white)
-                .setNegativeButtonClick(new Closure() {
-                    @Override
-                    public void exec() {
-                        //click
-                    }
-                });
     }
 
     private String formatTime(long totalTime) {
